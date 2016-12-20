@@ -1,8 +1,10 @@
-CREATE SCHEMA `ling` ;
+CREATE DATABASE `ling` ;
+
+USE ling;
 
 drop table if exists t_ling_user;
 
-CREATE TABLE `ling`.`t_ling_user` (
+CREATE TABLE `t_ling_user` (
   `user_id` VARCHAR(255) NOT NULL,
   `salt_fixed` CHAR(8) NULL,
   `salt_random` CHAR(8) NULL,
