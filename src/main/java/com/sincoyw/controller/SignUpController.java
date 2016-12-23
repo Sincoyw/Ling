@@ -1,5 +1,6 @@
 package com.sincoyw.controller;
 
+import com.sincoyw.domain.UserInfo;
 import com.sincoyw.model.SignUpInfo;
 import com.sincoyw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +33,20 @@ public class SignUpController {
     //
     @PostMapping("/signUp")
     public String signUpFormSubmit(@ModelAttribute SignUpInfo signUpInfo) {
-        //TODO: need to check if the email have exist, need to tip user to use another email address.
-        userService.createNewAccount(
-                signUpInfo.getEmail(),
-                signUpInfo.getPassword(),
-                0,
-                signUpInfo.getCellphone(),
-                new Date(),
-                signUpInfo.getHomeSite(),
-                signUpInfo.getEmail()
-        );
-        return "loginSuccess";
+        UserInfo userInfo = userService.findUserByEmail(signUpInfo.getEmail());
+        if (null == userInfo) {
+            userService.createNewAccount(
+                    signUpInfo.getEmail(),
+                    signUpInfo.getPassword(),
+                    0,
+                    signUpInfo.getCellphone(),
+                    new Date(),
+                    signUpInfo.getHomeSite(),
+                    signUpInfo.getEmail()
+            );
+            return "loginSuccess";
+        } else {
+            return "emailAlreadyExist";
+        }
     }
 }

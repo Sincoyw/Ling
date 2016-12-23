@@ -5,7 +5,9 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-    <h1>Welcome to Ling!</h1>
+    <header>
+        <h1>Welcome to Ling!</h1>
+    </header>
     <form action="#" th:action="@{/signUp}" th:object="${signUpInfo}" method="post">
         <p>
             Email:<input type="text" th:field="*{email}">
