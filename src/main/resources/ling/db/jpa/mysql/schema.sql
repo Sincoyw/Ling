@@ -19,3 +19,14 @@ CREATE TABLE `t_ling_user` (
   UNIQUE INDEX `cellphone_UNIQUE` (`cellphone` ASC),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 
+INSERT INTO t_ling_user VALUES(
+  "test@126.com",
+  "test",
+  "test",
+  "test@126.com",
+  0,
+  123456,
+  NULL,
+  "HERE",
+  "test@126.com"
+);

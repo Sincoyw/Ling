@@ -7,5 +7,17 @@ import com.sincoyw.domain.UserInfo;
  * Desc:
  */
 public interface UserRepository {
+    /**
+     * Save user info into database.
+     * @param userInfo
+     * @return
+     */
     public UserInfo save(UserInfo userInfo);
+
+    /**
+     * Find user by email address.
+     * @param email
+     * @return
+     */
+    public UserInfo findByEmail(String email);
 }

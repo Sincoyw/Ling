@@ -3,11 +3,10 @@
     <meta charset="UTF-8">
     <title>Ling</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-    <link href="WEB-CONTENT/greeting.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1 class="welcome-title">Welcome to Ling!</h1>
-    <form action="#" th:action="@{/greeting}" th:object="${loginInfo}" method="post">
+    <h1>Welcome to Ling!</h1>
+    <form action="#" th:action="@{/signUp}" th:object="${signUpInfo}" method="post">
         <p>
             Email:<input type="text" th:field="*{email}">
         </p>
@@ -15,12 +14,15 @@
             Password:<input type="text" th:field="*{password}">
         </p>
         <p>
-            <input type="submit" value="Login" />
+            Cellphone:<input type="text" th:field="*{cellphone}">
+        </p>
+        <p>
+            HomeSite:<input type="text" th:field="*{homeSite}">
+        </p>
+        <p>
+            <input type="submit" value="SignUp" />
             <input type="reset" value="reset">
         </p>
-    </form>
-    <form action="#" th:action="@{/signUp}" method="get">
-        <input type="submit" value="SignUp">
     </form>
 </body>
 </html>

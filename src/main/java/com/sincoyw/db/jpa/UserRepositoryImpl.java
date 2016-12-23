@@ -27,4 +27,14 @@ public class UserRepositoryImpl implements UserRepository {
         entityManagerFactory.close();
         return userInfo;
     }
+
+    @Override
+    public UserInfo findByEmail(String email) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        UserInfo userInfo = entityManager.find(UserInfo.class, email);
+        entityManager.getTransaction().commit();
+        entityManagerFactory.close();
+        return userInfo;
+    }
 }

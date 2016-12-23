@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by Sincoyw on 2016/8/18.
@@ -29,11 +29,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserInfo createNewAccount(
-            String userId, String password, int accessLevel, String cellphone,
-            Date lastVisitTime, String homeSite, String email) {
+            String userId,
+            String password,
+            int accessLevel,
+            String cellphone,
+            Date lastVisitTime,
+            String homeSite,
+            String email) {
+
         UserInfo userInfo = new UserInfo();
         userInfo.setUserId(userId);
         String saltRandom = RandomStringUtils.randomAlphanumeric(8);
+        userInfo.setSaltFixed(saltFixed);
+        userInfo.setSaltRandom(saltRandom);
         String resultPassword = saltFixed + password + saltRandom;
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -46,10 +54,15 @@ public class UserServiceImpl implements UserService {
         userInfo.setPassword(resultPassword);
         userInfo.setAccessLevel(accessLevel);
         userInfo.setCellphone(cellphone);
-        userInfo.setLastVisitTime(lastVisitTime);
+        userInfo.setLastVisitTime(new java.sql.Date(lastVisitTime.getTime()));
         userInfo.setHomeSite(homeSite);
         userInfo.setEmail(email);
         userRepository.save(userInfo);
         return userInfo;
+    }
+
+    @Override
+    public UserInfo findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

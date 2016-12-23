@@ -1,12 +1,13 @@
 package com.sincoyw.controller;
 
+import com.sincoyw.domain.UserInfo;
+import com.sincoyw.model.LoginInfo;
 import com.sincoyw.service.UserService;
-import com.sincoyw.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -20,9 +21,21 @@ public class GreetingController {
     private UserService userService;
 
     //
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String greeting() {
-        // TODO:do something
+    @GetMapping("/greeting")
+    public String greetingForm(Model model) {
+        model.addAttribute("loginInfo", new LoginInfo());
         return "greeting";
     }
+
+    //
+    @PostMapping("/greeting")
+    public String loginSubmit(@ModelAttribute LoginInfo loginInfo) {
+        UserInfo userInfo = userService.findUserByEmail(loginInfo.getEmail());
+        if (null != userInfo) {
+            return "loginSuccess";
+        } else {
+            return "loginFail";
+        }
+    }
+
 }

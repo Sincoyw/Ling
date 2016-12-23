@@ -24,7 +24,7 @@ public class LingDataSourceConfig {
         driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
         driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/ling?serverTimezone=UTC");
         driverManagerDataSource.setUsername("ling_man");
-        driverManagerDataSource.setPassword("");
+        driverManagerDataSource.setPassword("ling_man");
         return driverManagerDataSource;
     }
 
@@ -36,7 +36,7 @@ public class LingDataSourceConfig {
         driverManagerDataSource.setDriverClassName("com.mysql.jdbc.Driver");
         driverManagerDataSource.setUrl("jdbc:mysql://localhost:3306/ling?serverTimezone=UTC");
         driverManagerDataSource.setUsername("ling_man");
-        driverManagerDataSource.setPassword("");
+        driverManagerDataSource.setPassword("ling_man");
         return driverManagerDataSource;
     }
 
