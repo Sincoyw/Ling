@@ -3,6 +3,7 @@
     <meta charset="UTF-8">
     <title>Ling</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <script src="WEB-CONTENT/js/signUp.js" type="text/javascript"></script>
 </head>
 <body>
     <header>
@@ -10,7 +11,7 @@
     </header>
     <form action="#" th:action="@{/signUp}" th:object="${signUpInfo}" method="post">
         <p>
-            Email:<input type="text" th:field="*{email}">
+            Email:<input type="text" id="inputSignUpEmail" th:field="*{email}">
         </p>
         <p>
             Password:<input type="text" th:field="*{password}">
@@ -26,5 +27,6 @@
             <input type="reset" value="reset">
         </p>
     </form>
+    <button onclick=checkEmailExistOnClick()>Check</button>
 </body>
 </html>

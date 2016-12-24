@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 
@@ -48,5 +49,13 @@ public class SignUpController {
         } else {
             return "emailAlreadyExist";
         }
+    }
+
+    //
+    @GetMapping("/singUp/emailExistCheck")
+    @ResponseBody
+    public String signUpEmailExistCheck(String email) {
+        UserInfo userInfo = userService.findUserByEmail(email);
+        return "here";
     }
 }
