@@ -54,8 +54,8 @@ public class SignUpController {
     //
     @GetMapping("/singUp/emailExistCheck")
     @ResponseBody
-    public String signUpEmailExistCheck(String email) {
+    public boolean signUpEmailExistCheck(String email) {
         UserInfo userInfo = userService.findUserByEmail(email);
-        return "here";
+        return null != userInfo;
     }
 }
