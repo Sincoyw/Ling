@@ -24,7 +24,8 @@ public class UserRepositoryImpl implements UserRepository {
         entityManager.getTransaction().begin();
         entityManager.persist(userInfo);
         entityManager.getTransaction().commit();
-        entityManagerFactory.close();
+        //TODO: when to close?
+        // entityManagerFactory.close();
         return userInfo;
     }
 
@@ -34,7 +35,8 @@ public class UserRepositoryImpl implements UserRepository {
         entityManager.getTransaction().begin();
         UserInfo userInfo = entityManager.find(UserInfo.class, email);
         entityManager.getTransaction().commit();
-        entityManagerFactory.close();
+        //TODO: when to close?
+        // entityManagerFactory.close();
         return userInfo;
     }
 }
