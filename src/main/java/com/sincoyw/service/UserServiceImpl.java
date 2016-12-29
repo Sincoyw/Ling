@@ -5,8 +5,11 @@ import com.sincoyw.domain.UserInfo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -25,6 +28,9 @@ public class UserServiceImpl implements UserService {
     private static final String saltFixed = "Ling";
 
     @Autowired
+    private RedisTemplate<String, UserInfo> redisTemplate;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Override
@@ -38,8 +44,9 @@ public class UserServiceImpl implements UserService {
             String email) {
 
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserId(userId);
         String saltRandom = RandomStringUtils.randomAlphanumeric(8);
+        userInfo.setUserUUId(userId + saltFixed + saltRandom);
+        userInfo.setUserId(userId);
         userInfo.setSaltFixed(saltFixed);
         userInfo.setSaltRandom(saltRandom);
         String resultPassword = saltFixed + password + saltRandom;
@@ -52,17 +59,26 @@ public class UserServiceImpl implements UserService {
             resultPassword = saltFixed + password + saltRandom;
         }
         userInfo.setPassword(resultPassword);
+        userInfo.setStatus(0);
         userInfo.setAccessLevel(accessLevel);
         userInfo.setCellphone(cellphone);
         userInfo.setLastVisitTime(new java.sql.Date(lastVisitTime.getTime()));
         userInfo.setHomeSite(homeSite);
         userInfo.setEmail(email);
         userRepository.save(userInfo);
+
+        // push to redis cache.
+        redisTemplate.opsForList().leftPush(userId, userInfo);
+
         return userInfo;
     }
 
     @Override
     public UserInfo findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        if (redisTemplate.hasKey(email)) {
+            return redisTemplate.opsForValue().get(email);
+        } else {
+            return userRepository.findByEmail(email);
+        }
     }
 }

@@ -14,8 +14,11 @@ import java.sql.Date;
 @Entity
 @Table(name = "t_ling_user")
 public class UserInfo implements Serializable {
-    @Column(name = "user_id", unique = true, nullable = false)
+    @Column(name = "user_uuid", unique = true, nullable = false)
     @Id
+    private String userUUId;
+
+    @Column(name = "user_id")
     private String userId;
 
     @Column(name = "salt_fixed")
@@ -26,6 +29,9 @@ public class UserInfo implements Serializable {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "status")
+    private int status;
 
     @Column(name = "access_level")
     private int accessLevel;
@@ -41,6 +47,14 @@ public class UserInfo implements Serializable {
 
     @Column(name = "email")
     private String email;
+
+    public String getUserUUId() {
+        return userUUId;
+    }
+
+    public void setUserUUId(String userUUId) {
+        this.userUUId = userUUId;
+    }
 
     public String getUserId() {
         return userId;
@@ -72,6 +86,14 @@ public class UserInfo implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getAccessLevel() {

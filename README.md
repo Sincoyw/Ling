@@ -14,5 +14,6 @@
 2. 实现Thymeleaf与服务器的数据表单白提交。
 3. 实现注册功能。
 4. 实现只请求数据不请求页面。@ResponseBody
-5. TODO：数据库表索引。
+5. 在数据库里加入字段UUid来作Key，再加一个Status字段来表示当前这个帐号的状态，0，未激活，1，激活，2，禁用for example.
 6. TODO: tokens and sessions learn。
+7. 关于Redis，它也是像Mysql一样的一个单独的服务，当要使用它时，也要单独地安装这个服务，然后启动它。
