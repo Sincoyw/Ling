@@ -1,5 +1,8 @@
 CREATE DATABASE `ling` ;
 
+CREATE USER 'ling_man'@'localhost' identified by 'ling_man';
+grant all on ling.* to 'ling_man';
+
 USE ling;
 
 drop table if exists t_ling_user;

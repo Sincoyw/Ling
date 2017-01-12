@@ -1,0 +1,43 @@
+<html xmlns = "http://www.w3.org/1999/xhtml" xmlns:th = "http://www.thymeleaf.org">
+<link>
+    <meta charset="UTF-8">
+    <title>Sign in to Ling</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 minimum-scale=1.0 maximum-scale=1.0">
+    <link href="WEB-CONTENT/css/login.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div role="main" class="form-container">
+        <h3 class="form-title">Welcome to Ling!</h3>
+
+        <div class="form-content">
+            <form action="#" th:action="@{/login}" th:object="${loginInfo}" method="post">
+                <div>
+                    <label for="login_field">Email address</label>
+                </div>
+                <div>
+                    <input id="login_field" autocapitalize="off" type="email" th:field="*{email}">
+                </div>
+
+                <div>
+                    <label for="password">Password</label>
+                </div>
+                <div>
+                    <input id="password" autocapitalize="off" type="password" th:field="*{password}">
+                </div>
+
+                <div>
+                    <input type="submit" value="Login" width="100%" />
+                </div>
+                <div>
+                    <input type="reset" value="reset" width="100%" />
+                </div>
+            </form>
+            <form action="#" th:action="@{/signUp}" method="get">
+                <input type="submit" value="SignUp">
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

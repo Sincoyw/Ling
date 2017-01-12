@@ -15,20 +15,20 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @ComponentScan("com.sincoyw")
-public class GreetingController {
+public class LoginController {
 
     @Autowired
     private UserService userService;
 
     //
-    @GetMapping("/greeting")
+    @GetMapping("/login")
     public String greetingForm(Model model) {
         model.addAttribute("loginInfo", new LoginInfo());
-        return "greeting";
+        return "login";
     }
 
     //
-    @PostMapping("/greeting")
+    @PostMapping("/login")
     public String loginSubmit(@ModelAttribute LoginInfo loginInfo) {
         UserInfo userInfo = userService.findUserByEmail(loginInfo.getEmail());
         if (null != userInfo) {
