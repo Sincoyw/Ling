@@ -2,11 +2,14 @@ package com.sincoyw.service;
 
 import com.sincoyw.db.UserRepository;
 import com.sincoyw.domain.UserInfo;
+import com.sincoyw.status.LoginResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,6 +35,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
 
     @Override
     public UserInfo createNewAccount(
@@ -70,6 +76,8 @@ public class UserServiceImpl implements UserService {
         // push to redis cache.
         redisTemplate.opsForList().leftPush(userId, userInfo);
 
+        inMemoryUserDetailsManager.createUser(User.withUsername(userId).password(resultPassword).roles("USER").build());
+
         return userInfo;
     }
 
@@ -79,6 +87,38 @@ public class UserServiceImpl implements UserService {
             return redisTemplate.opsForValue().get(email);
         } else {
             return userRepository.findByEmail(email);
+        }
+    }
+
+    @Override
+    public int loginWithUserIdPassword(String userId, String password) {
+        UserInfo userInfo;
+        if (redisTemplate.hasKey(userId)) {
+            userInfo = redisTemplate.opsForValue().get(userId);
+        } else {
+            userInfo = userRepository.findByEmail(userId);
+        }
+
+        if (null == userInfo) {
+            return LoginResult.NotExist;
+        }
+
+        String resultPassword = saltFixed + password + userInfo.getSaltRandom();
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(resultPassword.getBytes());
+            byte[] digestData = messageDigest.digest();
+            resultPassword = new String(digestData);
+        } catch (NoSuchAlgorithmException exception) {
+            resultPassword = saltFixed + password + userInfo.getSaltRandom();
+        }
+        if (resultPassword.equals(userInfo.getPassword())) {
+
+            inMemoryUserDetailsManager.createUser(User.withUsername(userId).password(resultPassword).roles("USER").build());
+
+            return LoginResult.Success;
+        } else {
+            return LoginResult.PasswordError;
         }
     }
 }

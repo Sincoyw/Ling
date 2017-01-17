@@ -1,6 +1,7 @@
 package com.sincoyw.service;
 
 import com.sincoyw.domain.UserInfo;
+import com.sincoyw.status.LoginResult;
 
 import java.util.Date;
 
@@ -30,4 +31,12 @@ public interface UserService {
             String email);
 
     public UserInfo findUserByEmail(String email);
+
+    /**
+     * Login with userId and password.
+     * @param userId
+     * @param password
+     * @return the login result.
+     */
+    public int loginWithUserIdPassword(String userId, String password);
 }

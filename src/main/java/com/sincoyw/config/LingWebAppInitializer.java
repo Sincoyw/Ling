@@ -26,7 +26,7 @@ public class LingWebAppInitializer extends AbstractAnnotationConfigDispatcherSer
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] { LingRootConfig.class };
+        return new Class<?>[] { LingRootConfig.class, SpringSecurityConfig.class };
     }
 
     @Override
